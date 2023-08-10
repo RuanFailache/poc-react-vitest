@@ -1,0 +1,21 @@
+.timer {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+
+  .divider, .timeSlot {
+    font-size: 2em;
+    line-height: 1.5em;
+  }
+
+  .timeSlot {
+    width: 60px;
+    height: 60px;
+
+    display: grid;
+    place-items: center;
+
+    border: dashed 1px var(--outline-color);
+    border-radius: var(--border-radius);
+  }
+}
