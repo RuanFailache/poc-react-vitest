@@ -1,8 +1,12 @@
-import { renderHook } from "@testing-library/react-hooks";
+import { act, renderHook } from "@testing-library/react";
 
 import useTimer from ".";
-import { expect } from "vitest";
-import { HOUR, MINUTE, SECOND } from "../../../resources/constants/time.ts";
+
+import {
+  HOUR_IN_MS,
+  MINUTE_IN_MS,
+  SECOND_IN_MS,
+} from "../../../resources/constants/time.ts";
 
 vi.useFakeTimers();
 
@@ -22,9 +26,10 @@ describe("useTimer", () => {
     test("should indicate that the timer started", () => {
       const { result } = renderHook(() => useTimer());
 
-      result.current.onStartTimer();
-
-      vi.advanceTimersByTime(SECOND);
+      act(() => {
+        result.current.onStartTimer();
+        vi.advanceTimersByTime(SECOND_IN_MS);
+      });
 
       expect(result.current.isStarted).toBeTruthy();
     });
@@ -32,13 +37,14 @@ describe("useTimer", () => {
     test("should increment seconds correctly", () => {
       const { result } = renderHook(() => useTimer());
 
-      result.current.onStartTimer();
-
-      vi.advanceTimersByTime(SECOND);
+      act(() => {
+        result.current.onStartTimer();
+        vi.advanceTimersByTime(SECOND_IN_MS);
+      });
 
       expect(result.current.timer.seconds).toBe(1);
 
-      vi.advanceTimersByTime(SECOND);
+      act(() => vi.advanceTimersByTime(SECOND_IN_MS));
 
       expect(result.current.timer.seconds).toBe(2);
     });
@@ -46,9 +52,10 @@ describe("useTimer", () => {
     test("should increment minutes correctly", async () => {
       const { result } = renderHook(() => useTimer());
 
-      result.current.onStartTimer();
-
-      vi.advanceTimersByTime(MINUTE);
+      act(() => {
+        result.current.onStartTimer();
+        vi.advanceTimersByTime(MINUTE_IN_MS);
+      });
 
       expect(result.current.timer.seconds).toBe(0);
       expect(result.current.timer.minutes).toBe(1);
@@ -57,9 +64,10 @@ describe("useTimer", () => {
     test("should increment hours correctly", async () => {
       const { result } = renderHook(() => useTimer());
 
-      result.current.onStartTimer();
-
-      vi.advanceTimersByTime(HOUR);
+      act(() => {
+        result.current.onStartTimer();
+        vi.advanceTimersByTime(HOUR_IN_MS);
+      });
 
       expect(result.current.timer.seconds).toBe(0);
       expect(result.current.timer.minutes).toBe(0);
@@ -71,16 +79,18 @@ describe("useTimer", () => {
     test("should pause timer correctly", async () => {
       const { result } = renderHook(() => useTimer());
 
-      result.current.onStartTimer();
+      act(() => {
+        result.current.onStartTimer();
+        vi.advanceTimersByTime(SECOND_IN_MS);
+      });
 
-      vi.advanceTimersByTime(SECOND);
-
-      result.current.onPauseTimer();
-
-      vi.advanceTimersByTime(HOUR);
+      act(() => {
+        result.current.onPauseTimer();
+        vi.advanceTimersByTime(HOUR_IN_MS);
+      });
 
       expect(result.current.isPaused).toBeTruthy();
-      expect(result.current.timer.seconds).toBe(2);
+      expect(result.current.timer.seconds).toBe(1);
     });
   });
 
@@ -88,11 +98,12 @@ describe("useTimer", () => {
     test("should reset timer correctly", async () => {
       const { result } = renderHook(() => useTimer());
 
-      result.current.onStartTimer();
+      act(() => {
+        result.current.onStartTimer();
+        vi.advanceTimersByTime(HOUR_IN_MS);
+      });
 
-      vi.advanceTimersByTime(HOUR);
-
-      result.current.onResetTimer();
+      act(() => result.current.onResetTimer());
 
       expect(result.current.isPaused).toBeTruthy();
       expect(result.current.isStarted).toBeFalsy();

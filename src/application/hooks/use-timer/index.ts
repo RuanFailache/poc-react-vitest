@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ITimer } from "../../../domain/entities/Timer.ts";
-import { SECOND } from "../../../resources/constants/time.ts";
+import { SECOND_IN_MS } from "../../../resources/constants/time.ts";
 
 export default function useTimer() {
   const [timer, setTimer] = useState<ITimer>({
@@ -49,7 +49,7 @@ export default function useTimer() {
                 seconds: prevState.seconds + 1,
               };
             }),
-          SECOND,
+          SECOND_IN_MS,
         ),
       );
     },

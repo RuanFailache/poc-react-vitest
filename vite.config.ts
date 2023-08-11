@@ -1,12 +1,12 @@
 /// <reference types="vitest" />
-import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
-import { VitePluginFonts } from "vite-plugin-fonts";
+import Unfonts from "unplugin-fonts/vite";
+import { defineConfig } from "vite";
 
 export default defineConfig({
   plugins: [
     react(),
-    VitePluginFonts({
+    Unfonts({
       google: {
         families: ["Rubik"],
       },
@@ -14,8 +14,9 @@ export default defineConfig({
   ],
 
   test: {
-    include: ["./src/**/*.(spec|test).ts"],
+    include: ["./src/**/*.(spec|test).(ts|tsx)"],
     globals: true,
     environment: "jsdom",
+    setupFiles: ["./src/config/test/setup.ts"],
   },
 });

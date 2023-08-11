@@ -1,3 +1,3 @@
-export const SECOND = 1000; // in ms
-export const MINUTE = 60 * SECOND;
-export const HOUR = 60 * MINUTE;
+export const SECOND_IN_MS = 1000;
+export const MINUTE_IN_MS = 60 * SECOND_IN_MS;
+export const HOUR_IN_MS = 60 * MINUTE_IN_MS;

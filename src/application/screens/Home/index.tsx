@@ -23,7 +23,7 @@ export default function Home(): JSX.Element {
           <button
             onClick={onStartTimer}
             className={styles.button}
-            disabled={isStarted && !isPaused}
+            disabled={!isPaused}
           >
             Iniciar
           </button>
